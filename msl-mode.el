@@ -4,7 +4,7 @@
 ;; Version: 1.0
 ;; Created: Jan 2016
 ;; Keywords: languages
-;; Homepage: http://
+;; Homepage: https://github.com/hfichter/msl-mode
 
 ;; This file is not part of GNU Emacs.
 
@@ -15,6 +15,7 @@
 ;; Define several category of keywords
 (setq msl-keywords '("IF" "THEN" "ELSE" "WHILE"))
 (setq msl-constants '("TRUE" "FALSE"))
+(setq msl-boolean-operators '("NOT" "AND" "OR"))
 
 ;; TODO: load funciton names in this version
 ;; (load-file "msl-functions.el")
@@ -22,6 +23,7 @@
 ;; generate regex string for each category of keywords
 (setq msl-keywords-regexp (regexp-opt msl-keywords 'words))
 (setq msl-constant-regexp (regexp-opt msl-constants 'words))
+(setq msl-boolean-operators-regexp (regexp-opt msl-boolean-operators 'words))
 ;;(setq msl-functions-regexp (regexp-opt msl-functions 'words))
 
 ;; create the list for font-lock.
@@ -29,6 +31,7 @@
 (setq msl-font-lock-keywords
       `(
         (,msl-constant-regexp .  font-lock-constant-face)
+        (,msl-boolean-operators-regexp .  msl-face-syntax)
 	;; (,msl-functions-regexp . font-lock-function-name-face)
         (,msl-keywords-regexp . msl-face-keywords)
         ))
