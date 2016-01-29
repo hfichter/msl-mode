@@ -62,7 +62,7 @@
     :group 'msl-faces)
   (defface msl-face-comment
     '((((class color))
-       :foreground "SpringGreen4"))
+       :foreground "green3"))
     "Face used for MSL comments"
     :group 'msl-faces)
   (defface msl-face-string
@@ -90,7 +90,9 @@
   ;; additonal keywords for MSL separators 
   (font-lock-add-keywords nil
 			  ;;(regexp-opt '("," ":" "=" "{" "}" "(" ")"))
-			  '(("[(),:={}]" . msl-face-syntax))))
+			  '(("[(),:={}]" . msl-face-syntax)))
+  ;; Default MSL mode bindings
+  (local-set-key (kbd "C-c f")  'msl-current-function-name))
 
 ;; clear memory. no longer needed
 (setq msl-keywords nil)
@@ -105,8 +107,29 @@
 ;; add the mode to the `features' list
 (provide 'msl-mode)
 
-;; Local Variables:
-;; coding: utf-8
-;; End:
+;; Custom functions
+(defun msl-current-function-name ()
+  (interactive)
+  (save-excursion
+    (search-backward-regexp "    //FILE BEING EXECUTED : ")
+    (message (buffer-substring-no-properties (match-end 0) (line-end-position)))))
+
+(defun msl-list-all-functions ()
+  (interactive)
+  (save-excursion
+    (let ((res "" ))
+      (beginning-of-buffer)
+      (while (search-forward-regexp "    //FILE BEING EXECUTED : " nil t nil) 
+	(setq res (concat
+		   res
+		   (buffer-substring-no-properties
+			       (match-end 0)
+			       (line-end-position))
+		   "\n"))
+	)
+      (message (concat "msg: " res))
+      (switch-to-buffer "*MSL output*")
+      (erase-buffer)
+      (insert res))))
 
 ;; msl-mode.el ends here
