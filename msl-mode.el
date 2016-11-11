@@ -1,4 +1,4 @@
-;;; msl-mode.el --- sample major mode for editing MSL
+;;; msl-mode.el --- Major mode for editing MSL
 
 ;; Author: Hugo Fichter 
 ;; Version: 1.1
@@ -70,7 +70,7 @@
   "Major mode for editing Murex Scripting Language files"
   ;; set  MSL syntax table
   ;; to detect C and C++ style comments
-;;  (set-syntax-table msl-mode-syntax-table)
+  ;;  (set-syntax-table msl-mode-syntax-table)
   (modify-syntax-entry ?/ ". 14" msl-mode-syntax-table)
   (modify-syntax-entry ?* ". 23" msl-mode-syntax-table)
   (modify-syntax-entry ?/ ". 124b" msl-mode-syntax-table)
@@ -123,6 +123,8 @@
       (message (concat "msg: " res))
       (switch-to-buffer "*MSL output*")
       (erase-buffer)
-      (insert res))))
+      (insert res)
+      (beginning-of-buffer)
+      )))
 
 ;; msl-mode.el ends here
